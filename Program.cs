@@ -31,7 +31,7 @@ namespace JJJ21
             // 배열로 받기 위해 배열 생성
             int[] result = new int[array.Length];
             // 생성한 배열에 키 값을 대입한다.
-            for (int i = 0; i<result.Length; i++)
+            for (int i = 0; i < result.Length; i++)
             {
                 //result[i] = dictionary[array[i]].Keys;
             }
@@ -39,7 +39,7 @@ namespace JJJ21
 
         // 거리순으로 정렬 강사님 버전
         public static int[] SortNear(int[] array, int stand)
-        {   
+        {
             /*
             // C스타일
             // 1. 내림차순 정렬 먼저(동일한 거리에 있을때 더 큰 수가 앞으로 오기 때문)
@@ -110,7 +110,7 @@ namespace JJJ21
 */
 
             // C#
-            return str.Where(x => char.IsDigit(x)).Select(x => x - '0').OrderBy(c=>c).ToArray();
+            return str.Where(x => char.IsDigit(x)).Select(x => x - '0').OrderBy(c => c).ToArray();
 
         }
 
@@ -132,7 +132,7 @@ namespace JJJ21
             }
             */
             // 배열을 오름차순으로 정렬하고 출력
-            Console.WriteLine(string.Join("",result.OrderBy(x => x)));
+            Console.WriteLine(string.Join("", result.OrderBy(x => x)));
 
             // string을 정렬시킨 후 다시 string형태로 만드는 방법
             Console.WriteLine(new string(str.OrderBy(x => x).ToArray()));
@@ -176,9 +176,9 @@ namespace JJJ21
             // Count : 개수
 
             string teststr = "ABCDEFG";
-            Console.WriteLine(string.Join("",teststr.Where(c=>c>='D')));
-            Console.WriteLine(string.Join("",teststr.Select(c => (int)c)));
-            Console.WriteLine(string.Join("",teststr.OrderBy(c => c)));
+            Console.WriteLine(string.Join("", teststr.Where(c => c >= 'D')));
+            Console.WriteLine(string.Join("", teststr.Select(c => (int)c)));
+            Console.WriteLine(string.Join("", teststr.OrderBy(c => c)));
             Console.WriteLine(str.ToLower().Count(c => c == 'a'));
 
 
@@ -188,7 +188,7 @@ namespace JJJ21
             string str1 = "aAb1B2cC34oOP";
             // var에 대입해서 자료형을 쉽게 알아낼 수 있다.
             // 'Home버튼' : 해당 열에서 커서를 최전방으로 이동 <-> 'END 버튼'
-            var sumstr = str1.Where(c => char.IsDigit(c)).Select(c => (int)c-'0');
+            var sumstr = str1.Where(c => char.IsDigit(c)).Select(c => (int)c - '0');
 
             Console.WriteLine(sumstr.Sum());
 
@@ -197,14 +197,91 @@ namespace JJJ21
             // 각 자리수의 정수를 더하여 산출하라.
             // ex) 1234를 제공 받았을 때, 1+2+3+4 = 10
 
+            while (false)
+            {
+                Console.Write("자리수의 합을 구할 숫자를 입력하세요 : ");
+
+                string inputText = Console.ReadLine();
+                double test;
+                if (double.TryParse(inputText, out test))
+                {
+                    var inputInt = inputText.Where(c => char.IsDigit(c)).Select(c => (int)c - '0');
+                    Console.WriteLine("배열을 이루고 있는 정수 : {0}, 그것들의 합은 : {1}", string.Join(",", inputInt), inputInt.Sum());
+
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 형식의 입력입니다.");
+                }
+            }
+
+
             // 1. 문자열을 제공 받을 readline과 정수로만 이루어져있는지 체크하는 tryparse 써보기
             // 2. 문자열을 정수 배열로 정리하기
             // 3. 더하고 산출
 
+
+            // 옹알이
+            // 조카가 발음 할 수 있는 4가지 단어만을 사용한 문자열을 가려내어라
+
+            string[] check = new string[4] { "aya", "ye", "woo", "ma" };
+
+
+
+            // 매개변수를 받을 문자열 배열과 예외처리를 위한 과정
+            // 매개변수로 받은 글자는 15개를 넘어선 안되며 글자 총 길이의 합은 100을 넘어선 안된다.
+
+            string[] babbling = new string[15] { "aya", "yee", "u", "maa", "wyeoo", "ayaye", "uuuma", "ye", "yemawoo", "ayaa", "ayayayaya", "mamamamamama", "maye", "woowoowoowoo", "weeeeee" };
+            // 7개가 나와야한다
+
+            string testLength = string.Join("", babbling);
+
+
+            if (testLength.Length < 100 && testLength.Length >= 0)
+            {
+                CheckBabble(babbling, check);
+            }
+            else
+            {
+                Console.WriteLine("잘못된 형식입니다.");
+            }
+
+        }
+        public static void CheckBabble(string[] babbling, string[] check)
+        {
+            int count = 0;
+            List<string> list = new List<string>();
+            for (int i = 0; i < babbling.Length; i++)
+            {
+                string text = babbling[i];
+                while (!string.IsNullOrEmpty(text))
+                {
+                    foreach (string s in check)
+                    {
+                        if (text.StartsWith(s))
+                        {
+                            text = text.Remove(0, s.Length);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    if (string.IsNullOrEmpty(text))
+                    {
+                        count++;
+                        list.Add(babbling[i]);
+                    }
+                }
+            }
+            
+
+
+            Console.WriteLine("발음할 수 있는 단어는 {0}이며 {1}개 입니다.", string.Join(",",list),count);
         }
 
-
     }
+    
 
     public static class Method
     {
